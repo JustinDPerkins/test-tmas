@@ -1,9 +1,10 @@
 # Use Ubuntu as the base image
 FROM ubuntu:latest
 
+
 # Set the working directory
 WORKDIR /app
-
+COPY . /app
 # Install required dependencies
 RUN apt-get update && \
     apt-get install -y wget tar && \
@@ -16,8 +17,9 @@ RUN wget -O tmas-cli.tar.gz https://cli.artifactscan.cloudone.trendmicro.com/tma
     rm tmas-cli.tar.gz
 
 # Set environment variables
-ENV TMAS_API_KEY=<TMAS_API_KEY>
-ENV SCAN_IMAGE_PATH=/app/scan_image.tar  
+ENV TMAS_API_KEY=<PlaceKeyHere>
+ENV SCAN_IMAGE_PATH=docker-archive:<test.tar>
+
 
 # Set up proxy configuration if needed
 # ENV NO_PROXY=<comma-separated-list-of-hosts>
@@ -30,5 +32,4 @@ ENV SCAN_IMAGE_PATH=/app/scan_image.tar
 # RUN echo $TEMPDIR && ls $TEMPDIR | grep "stereoscope-" && cd $TEMPDIR && rm -rf ./stereoscope-* && ls $TEMPDIR | grep "stereoscope-"
 
 # Define the default command to run when the container starts
-ENTRYPOINT ["tmas", "scan", "--platform", "linux/amd64", "docker-archive:$SCAN_IMAGE_PATH"]
-
+ENTRYPOINT ["sh", "-c", "tmas scan $SCAN_IMAGE_PATH --platform linux/amd64 --malwareScan"]
