@@ -1,0 +1,20 @@
+name: TMAS Scan
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  tmas_scan:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Run TMAS Scan
+        uses: ./actions/tmas-scan
+        with:
+          tmas-api-key: ${{ secrets.TMAS_API_KEY }}
+          scan-image-path: /app/test.tar
