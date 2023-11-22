@@ -1,0 +1,12 @@
+name: "Vision One TMAS Pipeline Scanner"
+description: "Scan Container Images with Vision One."
+inputs:
+  v1_apikey:
+    description: "Vision One API Key"
+    required: true
+  image_tar:
+    description: "Location of the file to be scanned, eg images/iamge.tar."
+    required: true
+runs:
+    using: 'docker'
+    main: 'Dockerfile'
